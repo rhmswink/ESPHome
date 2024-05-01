@@ -7,10 +7,15 @@ const uint16_t NUM_READ_BYTES = 0x2;
 const char HEATER_BUTTON_MASK  = 0x1;
 const char LIGHT_BUTTON_MASK   = 0x2;
 
-const char BOTH_BUTTONS_OFF = 0x55;
-const char HEATER_BUTTON_ON = 0x45;
-const char LIGHT_BUTTON_ON  = 0x15;
-const char BOTH_BUTTONS_ON  = 0x05;
+enum button_states {
+  BOTH_BUTTONS_OFF = 0x55,
+  HEATER_BUTTON_ON = 0x45,
+  LIGHT_BUTTON_ON  = 0x15,
+  BOTH_BUTTONS_ON  = 0x05
+};
+
+enum button_states button_led_state     = BOTH_BUTTONS_OFF;
+enum button_states button_led_state_old = BOTH_BUTTONS_OFF;
 
 char button_action   = 0x00;
 char button_checksum = 0xff;
@@ -20,9 +25,6 @@ uint16_t light_press_count  = 0;
 
 bool press_heater_button = false;
 bool press_light_button  = false;
-
-char button_led_state     = BOTH_BUTTONS_OFF;
-char button_led_state_old = BOTH_BUTTONS_OFF;
 
 bool light_state      = false;
 bool heater_state     = false;
@@ -55,21 +57,17 @@ class ButtonControl : public PollingComponent {
 
       } else {
         button_led_state = BOTH_BUTTONS_OFF;
-
       }
 
       //Did the user change the input?
-      if(button_led_state /= button_led_state_old){
+      if (button_led_state != button_led_state_old) {
+        ESP_LOGD("MIRROR_BUTTON", "A button was pressed. Updating light indicator with value: 0x%x", button_led_state);
         Wire.beginTransmission(I2C_ADDRESS);
         Wire.write(button_led_state);
         Wire.write(~button_led_state); // Checksum
         Wire.endTransmission();
         button_led_state_old = button_led_state; //Swap in the new value
       }
-
-      // Reset button press indication
-      press_heater_button = false;
-      press_light_button = false;
 
       Wire.requestFrom(I2C_ADDRESS, NUM_READ_BYTES);
 
@@ -92,7 +90,6 @@ class ButtonControl : public PollingComponent {
       if (button_action & HEATER_BUTTON_MASK) {
         heater_press_count += 1;
         if (heater_press_count = 2) {
-          // press_heater_button = true;
           id(mirror_heater).toggle();
         }
       } else {
@@ -108,5 +105,22 @@ class ButtonControl : public PollingComponent {
         }
         light_press_count = 0;
       }
+      
+      // test
+      // if (heater_press_count >= 100) {
+      //   ESP_LOGD("HEATER", "TOGGLE HEATER WAS PRESSED. Counter value is: %d", counter);
+      //   id(mirror_heater).toggle();
+      //   heater_press_count = 0;
+      // } else {
+      //   heater_press_count += 1;
+      // }
+      
+      // if (light_press_count >= 300) {
+      //   auto call_light = id(mirror_light).toggle();
+      //   call_light.perform();
+      //   light_press_count = 0;
+      // } else {
+      //   light_press_count += 1;
+      // }
     }
 };
