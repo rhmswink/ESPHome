@@ -23,9 +23,6 @@ char button_checksum = 0xff;
 uint16_t heater_press_count = 0;
 uint16_t light_press_count  = 0;
 
-bool press_heater_button = false;
-bool press_light_button  = false;
-
 bool light_state      = false;
 bool heater_state     = false;
 
@@ -72,6 +69,7 @@ class ButtonControl : public PollingComponent {
       Wire.requestFrom(I2C_ADDRESS, NUM_READ_BYTES);
 
       if (Wire.available() != NUM_READ_BYTES) {
+        ESP_LOGW("I2C Read", "Incorrect number of bytes read. Expected: %d, received: %d", NUM_READ_BYTES, Wire.available());
         // Slave send more or less bytes than expected. Clear the buffer
         while (Wire.available()) {
           Wire.read();
@@ -83,8 +81,13 @@ class ButtonControl : public PollingComponent {
       button_checksum = Wire.read();
 
       // Validate the checksum
-      if (button_action != ~button_checksum) {
+      if (button_action != (~button_checksum & 0xff)) {
+        ESP_LOGW("I2C Read", "Incorrect checksum. Received data: 0x%x, received checksum: 0x%x, inverted checksum: 0x%x", button_action, button_checksum, ~button_checksum);
         return;
+      }
+
+      if (button_action != 0) {
+        ESP_LOGD("I2C Read", "Button pressed. Button value is: 0x%x", button_action);
       }
 
       if (button_action & HEATER_BUTTON_MASK) {
@@ -105,22 +108,5 @@ class ButtonControl : public PollingComponent {
         }
         light_press_count = 0;
       }
-      
-      // test
-      // if (heater_press_count >= 100) {
-      //   ESP_LOGD("HEATER", "TOGGLE HEATER WAS PRESSED. Counter value is: %d", counter);
-      //   id(mirror_heater).toggle();
-      //   heater_press_count = 0;
-      // } else {
-      //   heater_press_count += 1;
-      // }
-      
-      // if (light_press_count >= 300) {
-      //   auto call_light = id(mirror_light).toggle();
-      //   call_light.perform();
-      //   light_press_count = 0;
-      // } else {
-      //   light_press_count += 1;
-      // }
     }
 };

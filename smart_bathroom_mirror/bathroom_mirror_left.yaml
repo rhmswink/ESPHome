@@ -1,5 +1,5 @@
 esphome:
-  name: bathroom_mirror_right
+  name: bathroom_mirror_left
   includes:
     - button_control.h
 
@@ -23,7 +23,7 @@ wifi:
   password: !secret wifi_pw
 
   manual_ip:
-    static_ip: 192.168.1.25
+    static_ip: 192.168.1.26
     gateway: 192.168.1.1
     subnet: 255.255.255.0
 
@@ -59,7 +59,7 @@ i2c:
 
 light:
   - platform: cwww
-    name: "Spiegel Rechts"
+    name: "Spiegel Links"
     cold_white: cold_white_output
     warm_white: warm_white_output
     cold_white_color_temperature: 6500 K
@@ -71,7 +71,7 @@ switch:
   - platform: gpio
     pin: GPIO6
     id: mirror_heater
-    name: "Spiegelverwarming Rechts"
+    name: "Spiegelverwarming Links"
     icon: "mdi:heat-wave"
     on_turn_on:
     - delay: 600s
