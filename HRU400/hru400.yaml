@@ -111,3 +111,222 @@ sensor:
   device_class: "volume_flow_rate"
   state_class: "measurement"
   value_type: U_WORD
+
+  - platform: modbus_controller
+  modbus_controller_id: modbus_hru400
+  name: "Foutnummer"
+  register_type: holding
+  address: 199
+  state_class: "measurement"
+  value_type: U_WORD
+
+number:
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[1] Filter vuil (volumemeting)"
+    id: HRU_errors1
+    register_type: holding
+    address: 200
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[2] Filter vuil (tijdmeting)"
+    id: HRU_errors2
+    register_type: holding
+    address: 201
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[3] Flow-waarschuwing afvoervolume"
+    id: HRU_errors3
+    register_type: holding
+    address: 202
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[4] Flow-waarschuwing toevoervolume"
+    id: HRU_errors4
+    register_type: holding
+    address: 203
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[11] Fout vochtsensor intern"
+    id: HRU_errors11
+    register_type: holding
+    address: 210
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[12] Fout vochtsensor afvoer"
+    id: HRU_errors12
+    register_type: holding
+    address: 211
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[13] Fout vochtsensor toevoer"
+    id: HRU_errors13
+    register_type: holding
+    address: 212
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[14] Fout temperatuursensor intern"
+    id: HRU_errors14
+    register_type: holding
+    address: 213
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[15] Fout temperatuursensor afvoer"
+    id: HRU_errors15
+    register_type: holding
+    address: 214
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[16] Fout vochtsensor afvoer"
+    id: HRU_errors16
+    register_type: holding
+    address: 215
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[17] Fout klep zone 1"
+    id: HRU_errors17
+    register_type: holding
+    address: 216
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[18] Fout klep zone 2"
+    id: HRU_errors18
+    register_type: holding
+    address: 217
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[19] Fout klep zone 3"
+    id: HRU_errors19
+    register_type: holding
+    address: 218
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[20] Fout klep zone 4"
+    id: HRU_errors20
+    register_type: holding
+    address: 219
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+    
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[21] Fout bypassklep"
+    id: HRU_errors21
+    register_type: holding
+    address: 220
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+    
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[22] Fout vorstklep"
+    id: HRU_errors22
+    register_type: holding
+    address: 221
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+    
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[23] Fout elektronicacompartiment"
+    id: HRU_errors23
+    register_type: holding
+    address: 222
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+    
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[31] Fout volumesensor afvoer"
+    id: HRU_errors31
+    register_type: holding
+    address: 230
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+    
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[32] Fout volumesensor toevoer"
+    id: HRU_errors32
+    register_type: holding
+    address: 231
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+    
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[33] Fout ventilatormodule afvoer"
+    id: HRU_errors33
+    register_type: holding
+    address: 232
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
+    
+  - platform: modbus_controller
+    modbus_controller_id: modbus_hru400
+    name: "[34] Fout ventilatormodule toevoer"
+    id: HRU_errors34
+    register_type: holding
+    address: 233
+    value_type: U_WORD
+    skip_updates: 10
+    use_write_multiple: true
