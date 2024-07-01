@@ -1,0 +1,84 @@
+esphome:
+  name: bathroom_mirror_generic
+  includes:
+    - button_control.h
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pw
+
+  manual_ip:
+    static_ip: 192.168.1.27
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+
+  power_save_mode: high
+
+output:
+  - platform: ledc
+    pin: GPIO5
+    id: cold_white_output
+    max_power: 0.8
+    frequency: 15000
+
+  - platform: ledc
+    pin: GPIO7
+    id: warm_white_output
+    max_power: 0.8
+    frequency: 15000
+
+  - platform: gpio
+    pin: GPIO0
+    id: i2c_sda 
+
+  - platform: gpio
+    pin: GPIO1
+    id: i2c_scl
+
+i2c:
+  sda: GPIO8
+  scl: GPIO9
+  scan: false
+  frequency: 10kHz
+  id: i2c_buttons
+
+light:
+  - platform: cwww
+    name: "Spiegel Generic"
+    cold_white: cold_white_output
+    warm_white: warm_white_output
+    cold_white_color_temperature: 6500 K
+    warm_white_color_temperature: 3000 K
+    constant_brightness: true
+    id: mirror_light
+
+switch:
+  - platform: gpio
+    pin: GPIO6
+    id: mirror_heater
+    name: "Spiegelverwarming Generic"
+    icon: "mdi:heat-wave"
+    on_turn_on:
+    - delay: 600s
+    - switch.turn_off: mirror_heater
+
+custom_component:
+  lambda: |-
+    auto button_control = new ButtonControl();
+    App.register_component(button_control);
+    return {button_control};
