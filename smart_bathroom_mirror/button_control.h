@@ -92,17 +92,17 @@ class ButtonControl : public PollingComponent {
 
       if (button_action & HEATER_BUTTON_MASK) {
         heater_press_count += 1;
-        if (heater_press_count = 2) {
+      } else {
+        if (heater_press_count >= 2) {
           id(mirror_heater).toggle();
         }
-      } else {
         heater_press_count = 0;
       }
 
       if (button_action & LIGHT_BUTTON_MASK) {
         light_press_count += 1;
       } else {
-        if (light_press_count > 0 && light_press_count < 20) {
+        if (light_press_count >= 2 && light_press_count < 20) {
           auto call_light = id(mirror_light).toggle();
           call_light.perform();
         }
